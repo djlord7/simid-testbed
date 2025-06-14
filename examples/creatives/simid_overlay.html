@@ -1,43 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>SIMID Overlay Test</title>
-    <script>
-      window.onload = function () {
-        // Send creativeReady once loaded
-        window.parent.postMessage(JSON.stringify({ type: "creativeReady" }), "*");
+<head>
+  <title>SIMID Overlay Creative</title>
+  <script>
+    window.onload = function () {
+      // Step 1: Create the SIMID communication protocol
+      const protocol = new SimidProtocol();
+      protocol.createSession();
 
-        // Create a button
-        const btn = document.createElement("button");
-        btn.innerText = "Try Now";
-        btn.style.position = "absolute";
-        btn.style.bottom = "20px";
-        btn.style.right = "20px";
-        btn.style.padding = "12px 20px";
-        btn.style.background = "#00aaff";
-        btn.style.color = "#fff";
-        btn.style.border = "none";
-        btn.style.borderRadius = "6px";
-        btn.style.zIndex = 10000;
-        document.body.appendChild(btn);
+      // Step 2: Handle INIT from the player
+      protocol.addListener("init", (event) => {
+        protocol.resolve(event); // Tell the player we're ready
+      });
 
-        // On click: pause video + show iframe
-        btn.onclick = function () {
-          window.parent.postMessage(JSON.stringify({ type: "requestPauseVideo" }), "*");
+      // Step 3: Add a button to show the widget
+      const btn = document.createElement("button");
+      btn.innerText = "Try Now";
+      btn.style.position = "absolute";
+      btn.style.bottom = "20px";
+      btn.style.right = "20px";
+      btn.style.padding = "12px 20px";
+      btn.style.background = "#00aaff";
+      btn.style.color = "#fff";
+      btn.style.border = "none";
+      btn.style.borderRadius = "6px";
+      btn.style.zIndex = 10000;
+      document.body.appendChild(btn);
 
-          const iframe = document.createElement("iframe");
-          iframe.src = "https://tech-iion.github.io/advertiser-creatives/allKinds/";
-          iframe.style.position = "absolute";
-          iframe.style.top = "0";
-          iframe.style.left = "0";
-          iframe.style.width = "100%";
-          iframe.style.height = "100%";
-          iframe.style.border = "none";
-          iframe.style.zIndex = 9999;
-          document.body.appendChild(iframe);
-        };
+      // Step 4: On click, request pause and show iframe
+      btn.onclick = function () {
+        protocol.sendMessage("Creative:requestPause");
+        const iframe = document.createElement("iframe");
+        iframe.src = "https://tech-iion.github.io/advertiser-creatives/allKinds/";
+        iframe.style.position = "absolute";
+        iframe.style.top = "0";
+        iframe.style.left = "0";
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
+        iframe.style.border = "none";
+        iframe.style.zIndex = 9999;
+        document.body.appendChild(iframe);
       };
-    </script>
-  </head>
-  <body style="margin:0; background:transparent;"></body>
+    };
+  </script>
+
+  <!-- Required for SIMID communication -->
+  <script src="https://interactiveadvertisingbureau.github.io/SIMID/examples/player/simid_protocol.js"></script>
+</head>
+<body style="margin:0; background:transparent;"></body>
 </html>
