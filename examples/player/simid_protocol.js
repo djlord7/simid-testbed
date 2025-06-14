@@ -206,3 +206,32 @@ const EventsThatRequireResponse = [
   'Player:fatalError',
   'createSession',
 ];
+
+const CreativeMessage = {
+  CLICK_THRU: 'Creative:clickThru',
+  EXPAND_NONLINEAR: 'Creative:expandNonlinear',
+  COLLAPSE_NONLINEAR: 'Creative:collapseNonlinear',
+  FATAL_ERROR: 'Creative:fatalError',
+  GET_MEDIA_STATE: 'Creative:getMediaState',
+  LOG: 'Creative:log',
+  REQUEST_FULL_SCREEN: 'Creative:requestFullScreen',
+  REQUEST_EXIT_FULL_SCREEN: 'Creative:requestExitFullScreen',
+  REQUEST_SKIP: 'Creative:requestSkip',
+  REQUEST_STOP: 'Creative:requestStop',
+  REQUEST_PAUSE: 'Creative:requestPause',
+  REQUEST_PLAY: 'Creative:requestPlay',
+  REQUEST_RESIZE: 'Creative:requestResize',
+  REQUEST_VOLUME: 'Creative:requestVolume',
+  REPORT_TRACKING: 'Creative:reportTracking',
+  REQUEST_CHANGE_AD_DURATION: 'Creative:requestChangeAdDuration',
+};
+
+const PlayerMessage = {
+  INIT: 'Player:init',
+  LOG: 'Player:log',
+  START_CREATIVE: 'Player:startCreative',
+  AD_SKIPPED: 'Player:adSkipped',
+  AD_STOPPED: 'Player:adStopped',
+  FATAL_ERROR: 'Player:fatalError',
+};
+
