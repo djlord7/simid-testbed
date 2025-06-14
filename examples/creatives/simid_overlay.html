@@ -1,31 +1,55 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <script src="../simid_protocol.js"> </script>
-    <script src="base_simid_creative.js"> </script>
-    <script src="simid_overlay.js"> </script>
-  </head>
-  <body>
-	<button id="request_play">Request Play</button><br>
-	<button id="request_pause">Request Pause</button><br>
-	<button id="request_full_screen">Request Full Screen</button><br>
-	<button id="fatal_error">Fatal Error</button><br>
-	<button id="request_skip">Request Skip</button><br>
-  <button id="request_stop">Request Stop</button>
-  <div id="log_container">
-    <input type="text" id="log_input"></input>
-    <button id="log_button">Log</button>
-  </div>
-  <div id="change_duration_container">
-    <input type="text" id="change_duration_input"></input>
-    <button id="change_duration_button">Change Duration</button>
-  </div>
-  <div id="information" style="color:green">Sample Simid Ad</div>
+<head>
+  <meta charset="UTF-8">
+  <title>SIMID Interactive Widget</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      overflow: hidden;
+    }
+    #widgetButton {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      padding: 10px 18px;
+      background: #00aaff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    #playableFrame {
+      display: none;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      z-index: 9998;
+    }
+  </style>
+</head>
+<body>
+  <button id="widgetButton">Try Now</button>
+  <iframe id="playableFrame" src="https://tech-iion.github.io/advertiser-creatives/allKinds/"></iframe>
+
   <script>
-    // The creative should first call ready
-    const simidOverlay = new SimidOverlay();
-    // This implementation is immediately ready but other creatives
-    // may wish to wait for assets to load before calling ready.
-    simidOverlay.ready();
+    // Notify the player that we're ready
+    window.parent.postMessage(JSON.stringify({
+      type: 'creativeReady'
+    }), '*');
+
+    document.getElementById('widgetButton').addEventListener('click', () => {
+      document.getElementById('playableFrame').style.display = 'block';
+      window.parent.postMessage(JSON.stringify({
+        type: 'requestPauseVideo'
+      }), '*');
+    });
   </script>
-  </body>
+</body>
 </html>
