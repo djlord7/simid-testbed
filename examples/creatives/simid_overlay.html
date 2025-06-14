@@ -1,55 +1,45 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>SIMID Interactive Widget</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: transparent;
-      overflow: hidden;
-    }
-    #widgetButton {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-      padding: 10px 18px;
-      background: #00aaff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    #playableFrame {
-      display: none;
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-      z-index: 9998;
-    }
-  </style>
-</head>
-<body>
-  <button id="widgetButton">Try Now</button>
-  <iframe id="playableFrame" src="https://tech-iion.github.io/advertiser-creatives/allKinds/"></iframe>
+  <head>
+    <title>SIMID Widget</title>
+    <script>
+      window.onload = function () {
+        const btn = document.createElement('button');
+        btn.innerText = "Try Now";
+        btn.style.position = "absolute";
+        btn.style.bottom = "20px";
+        btn.style.right = "20px";
+        btn.style.padding = "12px 20px";
+        btn.style.background = "#00aaff";
+        btn.style.color = "#fff";
+        btn.style.zIndex = 9999;
+        document.body.appendChild(btn);
 
-  <script>
-    // Notify the player that we're ready
-    window.parent.postMessage(JSON.stringify({
-      type: 'creativeReady'
-    }), '*');
+        btn.onclick = function () {
+          // Pause the video
+          window.parent.postMessage(JSON.stringify({
+            type: "requestPauseVideo"
+          }), "*");
 
-    document.getElementById('widgetButton').addEventListener('click', () => {
-      document.getElementById('playableFrame').style.display = 'block';
-      window.parent.postMessage(JSON.stringify({
-        type: 'requestPauseVideo'
-      }), '*');
-    });
-  </script>
-</body>
+          // Optionally: add a playable iframe
+          const iframe = document.createElement('iframe');
+          iframe.src = 'https://tech-iion.github.io/advertiser-creatives/allKinds/';
+          iframe.style.position = "absolute";
+          iframe.style.top = 0;
+          iframe.style.left = 0;
+          iframe.style.width = "100%";
+          iframe.style.height = "100%";
+          iframe.style.border = "none";
+          iframe.style.zIndex = 9998;
+          document.body.appendChild(iframe);
+        };
+
+        // Send creativeReady properly
+        window.parent.postMessage(JSON.stringify({
+          type: "creativeReady"
+        }), "*");
+      };
+    </script>
+  </head>
+  <body style="margin:0; background:transparent;"></body>
 </html>
