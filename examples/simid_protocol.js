@@ -122,13 +122,6 @@ class SimidProtocol {
       return;
     }
     const data = JSON.parse(event.data);
-try {
-  const msg = JSON.parse(event.data);
-  this.receiveMessage(msg);
-} catch (e) {
-  console.warn("Malformed postMessage received:", event.data);
-}
-
     if (!data) {
       // If there is no data in the event this is not a SIMID message.
       return;
