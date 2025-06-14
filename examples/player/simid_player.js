@@ -7,7 +7,7 @@ const ENABLED = false;
 let simidPlayer = null;
 
 function initAd() {
-  console.log("🚀 initAd() called");
+  console.log("initAd() called");
 
   if (simidPlayer) {
     simidPlayer.stopAd();
@@ -16,7 +16,7 @@ function initAd() {
   const isLinearAd = document.getElementById("linear_ad").checked;
 
   simidPlayer = new SimidPlayer(() => {
-    console.log("🛑 Ad complete callback called");
+    console.log("Ad complete callback called");
     simidPlayer = null;
   }, isLinearAd);
 
@@ -24,10 +24,10 @@ function initAd() {
 }
 
 function playAd() {
-  console.log("▶️ playAd() called");
+  console.log("playAd() called");
 
   if (!simidPlayer) {
-    console.log("ℹ️ simidPlayer is null, calling initAd()");
+    console.log("simidPlayer is null, calling initAd()");
     initAd();
   }
 
@@ -36,8 +36,6 @@ function playAd() {
 }
 
 function closeAd() {
-  console.log("❌ closeAd() called");
-
   if (simidPlayer) {
     simidPlayer.stopAd();
     simidPlayer.setCreativeControlsState_(DISABLED);
@@ -45,8 +43,6 @@ function closeAd() {
 }
 
 function skipAd() {
-  console.log("⏩ skipAd() called");
-
   if (simidPlayer) {
     simidPlayer.skipAd();
     simidPlayer.setCreativeControlsState_(DISABLED);
@@ -54,8 +50,6 @@ function skipAd() {
 }
 
 function fatalError() {
-  console.log("🔥 fatalError() called");
-
   if (simidPlayer) {
     simidPlayer.stopAd();
     simidPlayer.setCreativeControlsState_(DISABLED);
@@ -63,4 +57,13 @@ function fatalError() {
 }
 
 function pauseAd() {
-  console.log("⏸️ pauseAd(
+  if (simidPlayer) {
+    simidPlayer.pauseAd();
+  }
+}
+
+function playAdVideo() {
+  if (simidPlayer) {
+    simidPlayer.playAdVideo();
+  }
+}
