@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SIMID Widget</title>
+    <title>SIMID Overlay Test</title>
     <script>
       window.onload = function () {
-        const btn = document.createElement('button');
+        // Send creativeReady once loaded
+        window.parent.postMessage(JSON.stringify({ type: "creativeReady" }), "*");
+
+        // Create a button
+        const btn = document.createElement("button");
         btn.innerText = "Try Now";
         btn.style.position = "absolute";
         btn.style.bottom = "20px";
@@ -12,32 +16,26 @@
         btn.style.padding = "12px 20px";
         btn.style.background = "#00aaff";
         btn.style.color = "#fff";
-        btn.style.zIndex = 9999;
+        btn.style.border = "none";
+        btn.style.borderRadius = "6px";
+        btn.style.zIndex = 10000;
         document.body.appendChild(btn);
 
+        // On click: pause video + show iframe
         btn.onclick = function () {
-          // Pause the video
-          window.parent.postMessage(JSON.stringify({
-            type: "requestPauseVideo"
-          }), "*");
+          window.parent.postMessage(JSON.stringify({ type: "requestPauseVideo" }), "*");
 
-          // Optionally: add a playable iframe
-          const iframe = document.createElement('iframe');
-          iframe.src = 'https://tech-iion.github.io/advertiser-creatives/allKinds/';
+          const iframe = document.createElement("iframe");
+          iframe.src = "https://tech-iion.github.io/advertiser-creatives/allKinds/";
           iframe.style.position = "absolute";
-          iframe.style.top = 0;
-          iframe.style.left = 0;
+          iframe.style.top = "0";
+          iframe.style.left = "0";
           iframe.style.width = "100%";
           iframe.style.height = "100%";
           iframe.style.border = "none";
-          iframe.style.zIndex = 9998;
+          iframe.style.zIndex = 9999;
           document.body.appendChild(iframe);
         };
-
-        // Send creativeReady properly
-        window.parent.postMessage(JSON.stringify({
-          type: "creativeReady"
-        }), "*");
       };
     </script>
   </head>
