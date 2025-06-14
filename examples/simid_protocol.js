@@ -14,7 +14,7 @@ class SimidProtocol {
 
     /*
      * The session ID for this protocol.
-     * @private {String}
+     // @private {Element}
      */
     this.sessionId_ = '';
 
