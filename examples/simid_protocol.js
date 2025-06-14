@@ -118,16 +118,41 @@ class SimidProtocol {
    * Recieves messages from either the player or creative.
    */
   receiveMessage(event) {
-    if (!event || !event.data) {
-      return;
+  if (!event || !event.data) {
+    return;
+  }
+
+  let data;
+  try {
+    data = JSON.parse(event.data);
+  } catch (e) {
+    console.warn("Malformed postMessage received (not JSON):", event.data);
+    return;
+  }
+
+  const sessionId = data['sessionId'];
+  const type = data['type'];
+
+  const isCreatingSession = this.sessionId_ === '' && type === ProtocolMessage.CREATE_SESSION;
+  const isSessionIdMatch = this.sessionId_ === sessionId;
+  const validSessionId = isCreatingSession || isSessionIdMatch;
+
+  if (!validSessionId || type == null) {
+    return;
+  }
+
+  // Handle protocol messages (resolve, reject, createSession)
+  if (Object.values(ProtocolMessage).includes(type)) {
+    this.handleProtocolMessage_(data);
+  } else if (type.startsWith('SIMID:')) {
+    const specificType = type.substring(6);
+    const listeners = this.listeners_[specificType];
+    if (listeners) {
+      listeners.forEach((listener) => listener(data));
     }
-    const data = JSON.parse(event.data);
-try {
-  const msg = JSON.parse(event.data);
-  this.receiveMessage(msg);
-} catch (e) {
-  console.warn("Malformed postMessage received:", event.data);
+  }
 }
+
 
     if (!data) {
       // If there is no data in the event this is not a SIMID message.
