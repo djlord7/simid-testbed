@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SIMID Overlay Creative</title>
+  <title>SIMID Overlay Test</title>
+  <!-- ✅ Include SIMID protocol -->
+  <script src="https://interactiveadvertisingbureau.github.io/SIMID/simid_protocol.js"></script>
   <script>
+    let protocol;
+
     window.onload = function () {
-      // Step 1: Create the SIMID communication protocol
-      const protocol = new SimidProtocol();
+      // ✅ Create SIMID protocol instance
+      protocol = new SimidProtocol();
       protocol.createSession();
 
-      // Step 2: Handle INIT from the player
-      protocol.addListener("init", (event) => {
-        protocol.resolve(event); // Tell the player we're ready
+      // Send creativeReady once loaded
+      protocol.sendMessage('creativeReady');
+
+      // Listen for init and resolve it
+      protocol.addListener('init', (event) => {
+        protocol.resolve(event);
       });
 
-      // Step 3: Add a button to show the widget
+      // Create a "Try Now" button
       const btn = document.createElement("button");
       btn.innerText = "Try Now";
       btn.style.position = "absolute";
@@ -27,11 +34,12 @@
       btn.style.zIndex = 10000;
       document.body.appendChild(btn);
 
-      // Step 4: On click, request pause and show iframe
+      // On click: pause video + show iframe
       btn.onclick = function () {
-        protocol.sendMessage("Creative:requestPause");
+        protocol.sendMessage("requestPause");
+
         const iframe = document.createElement("iframe");
-        iframe.src = "https://tech-iion.github.io/advertiser-creatives/liloStitchPlayable/playable/";
+        iframe.src = "https://tech-iion.github.io/advertiser-creatives/allKinds/";
         iframe.style.position = "absolute";
         iframe.style.top = "0";
         iframe.style.left = "0";
@@ -43,9 +51,6 @@
       };
     };
   </script>
-
-  <!-- Required for SIMID communication -->
-  <script src="https://interactiveadvertisingbureau.github.io/SIMID/examples/player/simid_protocol.js"></script>
 </head>
 <body style="margin:0; background:transparent;"></body>
 </html>
